@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 
-export default function WelcomeScreen() {
+export default function WelcomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -9,7 +9,10 @@ export default function WelcomeScreen() {
       </View>
 
       <View style={styles.footer}>
-        <Text>Lab 3 - Flexbox Layout</Text>
+        <Button
+          title="View My Tasks"
+          onPress={() => navigation.navigate('AddTask')}
+        />
       </View>
     </View>
   );
