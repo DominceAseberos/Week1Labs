@@ -46,9 +46,9 @@ export default function AddTaskScreen() {
 
   useEffect(() => {
     // Load one quote when the screen opens.
-    fetch('https://api.quotable.io/random')
+    fetch('https://dummyjson.com/quotes/random')
       .then((response) => response.json())
-      .then((data) => setQuote(data.content))
+      .then((data) => setQuote(data.quote))
       .catch(() => setQuote('Believe in yourself and get it done!'));
   }, []);
 
@@ -79,6 +79,11 @@ export default function AddTaskScreen() {
     );
   }
 
+  function handleDeleteTask(id) {
+    // Remove only the selected task.
+    setTasks(tasks.filter((task) => task.id !== id));
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.quote}>💬 {quote}</Text>
@@ -86,9 +91,9 @@ export default function AddTaskScreen() {
       <Button
         title="New Quote"
         onPress={() => {
-          fetch('https://api.quotable.io/random')
+          fetch('https://dummyjson.com/quotes/random')
             .then((response) => response.json())
-            .then((data) => setQuote(data.content));
+            .then((data) => setQuote(data.quote));
         }}
       />
 
@@ -121,6 +126,7 @@ export default function AddTaskScreen() {
             title={item.title}
             done={item.done}
             onToggle={() => handleToggleTask(item.id)}
+            onDelete={() => handleDeleteTask(item.id)}
           />
         )}
         ListEmptyComponent={
