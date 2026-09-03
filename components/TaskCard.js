@@ -1,19 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 
-export default function TaskCard({ title, done }) {
+export default function TaskCard({ title, done, onToggle }) {
   return (
-    <View style={styles.card}>
-      <Text>{title}</Text>
-      <Text>{done ? 'Done' : 'Pending'}</Text>
-    </View>
+    <Pressable onPress={onToggle} style={styles.card}>
+      <Text style={styles.title}>{title}</Text>
+      <Text>{done ? '✅ Done' : '⏳ Pending'}</Text>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    borderWidth: 1,
-    borderColor: '#cccccc',
     padding: 12,
-    marginBottom: 10,
+    marginVertical: 6,
+    backgroundColor: '#EEF2F8',
+    borderRadius: 8,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });

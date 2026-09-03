@@ -6,19 +6,28 @@ export default function AddTaskScreen() {
   const [taskText, setTaskText] = useState('');
   const [tasks, setTasks] = useState([]);
 
-  function addTask() {
+  function handleAddTask() {
     if (taskText.trim() === '') {
       return;
     }
 
-    const task = {
+    const newTask = {
       id: Date.now().toString(),
       title: taskText,
       done: false,
     };
 
-    setTasks([...tasks, task]);
+    setTasks([...tasks, newTask]);
     setTaskText('');
+  }
+
+  function handleToggleTask(id) {
+    // Toggle only the task that was tapped.
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task
+      )
+    );
   }
 
   return (
@@ -32,7 +41,7 @@ export default function AddTaskScreen() {
         onChangeText={setTaskText}
       />
 
-      <Button title="Add Task" onPress={addTask} />
+      <Button title="Add Task" onPress={handleAddTask} />
 
       <Text style={styles.count}>You have {tasks.length} task(s)</Text>
 
@@ -40,8 +49,17 @@ export default function AddTaskScreen() {
         data={tasks}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TaskCard title={item.title} done={item.done} />
+          <TaskCard
+            title={item.title}
+            done={item.done}
+            onToggle={() => handleToggleTask(item.id)}
+          />
         )}
+        ListEmptyComponent={
+          <Text style={styles.empty}>No tasks yet — add one above! 👆</Text>
+        }
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        style={styles.list}
       />
     </View>
   );
@@ -66,5 +84,16 @@ const styles = StyleSheet.create({
   },
   count: {
     marginVertical: 16,
+  },
+  empty: {
+    textAlign: 'center',
+    color: '#6B7280',
+    marginTop: 24,
+  },
+  separator: {
+    height: 8,
+  },
+  list: {
+    flex: 1,
   },
 });
